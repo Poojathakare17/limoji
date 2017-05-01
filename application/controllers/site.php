@@ -1262,12 +1262,13 @@ public function viewenquirydetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewenquirydetail";
-$data["base_url"]=site_url("site/viewenquirydetailjson");
+$data["base_url"]=site_url("site/viewenquirydetailjson?id=").$this->input->get('id');
 $data["title"]="View enquirydetail";
 $this->load->view("template",$data);
 }
 function viewenquirydetailjson()
 {
+$id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`linuji_enquirydetail`.`id`";
@@ -1290,7 +1291,7 @@ $elements[3]->sort="1";
 $elements[3]->header="voltage";
 $elements[3]->alias="voltage";
 $elements[4]=new stdClass();
-$elements[4]->field="`linuji_enquirydetail`.`category`";
+$elements[4]->field="`linuji_category`.`name`";
 $elements[4]->sort="1";
 $elements[4]->header="category";
 $elements[4]->alias="category";
@@ -1313,7 +1314,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_enquirydetail`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_enquirydetail` RIGHT JOIN `linuji_category` ON `linuji_enquirydetail`.`category`=`linuji_category`.`id`","WHERE `linuji_enquirydetail`.`enquiryid`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -1406,6 +1407,141 @@ $access=array("1");
 $this->checkaccess($access);
 $this->enquirydetail_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewenquirydetail";
+$this->load->view("redirect",$data);
+}
+
+
+public function viewenquiries()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewenquiries";
+$data["base_url"]=site_url("site/viewenquiriesjson");
+$data["title"]="View enquiries";
+$this->load->view("template",$data);
+}
+function viewenquiriesjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`enquiries_enquiries`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`enquiries_enquiries`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="Name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`enquiries_enquiries`.`email`";
+$elements[2]->sort="1";
+$elements[2]->header="Email";
+$elements[2]->alias="email";
+$elements[3]=new stdClass();
+$elements[3]->field="`enquiries_enquiries`.`contact`";
+$elements[3]->sort="1";
+$elements[3]->header="Contact";
+$elements[3]->alias="contact";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `enquiries_enquiries`");
+$this->load->view("json",$data);
+}
+
+public function createenquiries()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createenquiries";
+$data["title"]="Create enquiries";
+$this->load->view("template",$data);
+}
+public function createenquiriessubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("email","Email","trim");
+$this->form_validation->set_rules("contact","Contact","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createenquiries";
+$data["title"]="Create enquiries";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$email=$this->input->get_post("email");
+$contact=$this->input->get_post("contact");
+if($this->enquiries_model->create($name,$email,$contact)==0)
+$data["alerterror"]="New enquiries could not be created.";
+else
+$data["alertsuccess"]="enquiries created Successfully.";
+$data["redirect"]="site/viewenquiries";
+$this->load->view("redirect",$data);
+}
+}
+public function editenquiries()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editenquiries";
+$data["title"]="Edit enquiries";
+$data["before"]=$this->enquiries_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editenquiriessubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("email","Email","trim");
+$this->form_validation->set_rules("contact","Contact","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editenquiries";
+$data["title"]="Edit enquiries";
+$data["before"]=$this->enquiries_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$email=$this->input->get_post("email");
+$contact=$this->input->get_post("contact");
+if($this->enquiries_model->edit($id,$name,$email,$contact)==0)
+$data["alerterror"]="New enquiries could not be Updated.";
+else
+$data["alertsuccess"]="enquiries Updated Successfully.";
+$data["redirect"]="site/viewenquiries";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteenquiries()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->enquiries_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewenquiries";
 $this->load->view("redirect",$data);
 }
 

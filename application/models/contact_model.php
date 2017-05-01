@@ -36,7 +36,6 @@ public function getContactInfo($name, $email, $contact, $row)
     $data=array("name" => $name,"contact" => $contact,"email" => $email);
     $query=$this->db->insert( "linuji_enquiry", $data );
     $id=$this->db->insert_id();
-    print_r($row);
     for($i=0; $i<count($row); $i++){
         $data=array("value" => $row[$i]['value'],"voltage" => $row[$i]['voltage'],"category" => $row[$i]['category'],"misc" => $row[$i]['misc'],"enquiryid" => $id);
         $query1=$this->db->insert( "linuji_enquirydetail", $data );

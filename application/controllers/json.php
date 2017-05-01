@@ -22,10 +22,8 @@ public function getContactInfo()
     $name=$data['name'];
     $email=$data['email'];
     $contact=$data['contact'];
-    // $row=$data['row'];
-    // echo "row";
-    print_r($data);
-    // $data["message"] = $this->contact_model->getContactInfo($name, $email, $contact);
+    $row=$data['row'];
+    $data["message"] = $this->contact_model->getContactInfo($name, $email, $contact,$row);
     $this->load->view("json", $data);
 }
 } ?>
