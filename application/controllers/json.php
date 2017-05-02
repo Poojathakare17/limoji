@@ -22,8 +22,12 @@ public function getContactInfo()
     $name=$data['name'];
     $email=$data['email'];
     $contact=$data['contact'];
-    $row=$data['row'];
-    $data["message"] = $this->contact_model->getContactInfo($name, $email, $contact,$row);
+    $row=$data['productEnquiry'];
+    if($name!=null) {
+        $data["message"] = $this->contact_model->getContactInfo($name, $email, $contact,$row);
+    }else {
+        $data["message"] = false;
+    }
     $this->load->view("json", $data);
 }
 } ?>
