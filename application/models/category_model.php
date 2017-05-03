@@ -41,10 +41,19 @@ public function getimagebyid($id)
 $query=$this->db->query("SELECT `image` FROM `linuji_category` WHERE `id`='$id'")->row();
 return $query;
 }
+public function getAllCategory()
+{
+$query=$this->db->query("SELECT * FROM `linuji_category` WHERE `status`='1' ORDER BY `ORDER`")->row();
+if($query){
+    return $query;
+}else{
+    false;
+}
+
+}
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `linuji_category` ORDER BY `id` 
-                    ASC")->result();
+$query=$this->db->query("SELECT * FROM `linuji_category` ORDER BY `id` ASC")->result();
 $return=array(
 "" => "Select Option"
 );

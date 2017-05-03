@@ -14,6 +14,12 @@ public function getAboutUsContent()
     $data["message"]=$this->aboutus_model->getAboutUsContent(1);
     $this->load->view("json",$data);
 }
+        //get all category api
+public function getAllCategory()
+{
+    $data["message"]=$this->category_model->getAllCategory();
+    $this->load->view("json",$data);
+}
 
         //enquiry form filling api
 public function getContactInfo()
