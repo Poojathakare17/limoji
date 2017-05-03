@@ -36,7 +36,7 @@ return $query;
 }
 function getAllSliderWithoutPagination()
 {
-    $query=$this->db->query("SELECT * FROM `linuji_slider`")->result();
+    $query=$this->db->query("SELECT * FROM `linuji_slider` WHERE `status`='1'")->result();
     if($query){
         return $query;
     }
