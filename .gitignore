@@ -42,3 +42,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /uploads
+
+# Zip files
+*.zip
+*.rar
+*.gz
+*.tar

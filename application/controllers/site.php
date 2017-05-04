@@ -1291,7 +1291,7 @@ $elements[3]->sort="1";
 $elements[3]->header="voltage";
 $elements[3]->alias="voltage";
 $elements[4]=new stdClass();
-$elements[4]->field="`linuji_category`.`name`";
+$elements[4]->field="`linuji_slider`.`name`";
 $elements[4]->sort="1";
 $elements[4]->header="category";
 $elements[4]->alias="category";
@@ -1314,7 +1314,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_enquirydetail` RIGHT JOIN `linuji_category` ON `linuji_enquirydetail`.`category`=`linuji_category`.`id`","WHERE `linuji_enquirydetail`.`enquiryid`='$id'");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_enquirydetail` RIGHT JOIN `linuji_slider` ON `linuji_enquirydetail`.`category`=`linuji_slider`.`id`","WHERE `linuji_enquirydetail`.`enquiryid`='$id'");
 $this->load->view("json",$data);
 }
 

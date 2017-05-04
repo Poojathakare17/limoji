@@ -43,7 +43,7 @@ return $query;
 }
 public function getAllCategory()
 {
-$query=$this->db->query("SELECT * FROM `linuji_category` WHERE `status`='1' ORDER BY `ORDER`")->row();
+$query=$this->db->query("SELECT `id`,`name` FROM `linuji_slider` WHERE `status`='1' AND `type`='1' ORDER BY `ORDER`")->result();
 if($query){
     return $query;
 }else{
