@@ -125,7 +125,7 @@ function generatejquery(url,getVar) {
                     fillchintandata();
                 });
 
-
+                
                 $(".drawchintantable .loader").hide();
                     $('.tooltipped').tooltip({
                     delay: 50

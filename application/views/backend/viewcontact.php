@@ -20,7 +20,7 @@
 </div>
 <script>
 function drawtable(resultrow) {
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.address + "</td><td></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.address + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editcontact?id=');?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Edit'><i class='fa fa-pencil propericon'></i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

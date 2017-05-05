@@ -36,4 +36,4 @@ public function getContactInfo()
     }
     $this->load->view("json", $data);
 }
-} ?>
+}?>
