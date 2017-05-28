@@ -34,6 +34,7 @@ return 1;
 public function delete($id)
 {
 $query=$this->db->query("DELETE FROM `linuji_enquiry` WHERE `id`='$id'");
+$query1=$this->db->query("DELETE FROM `linuji_enquirydetail` WHERE `enquiryid`='$id'");
 return $query;
 }
 public function getimagebyid($id)
