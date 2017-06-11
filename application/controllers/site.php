@@ -1566,7 +1566,7 @@ $elements[0]->sort="1";
 $elements[0]->header="ID";
 $elements[0]->alias="id";
 $elements[1]=new stdClass();
-$elements[1]->field="`linuji_category`.`name`";
+$elements[1]->field="`linuji_slider`.`name`";
 $elements[1]->sort="1";
 $elements[1]->header="Category";
 $elements[1]->alias="category";
@@ -1619,7 +1619,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_product` INNER JOIN `linuji_category` ON `linuji_category`.`id`=`linuji_product`.`category`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_product` INNER JOIN `linuji_slider` ON `linuji_slider`.`id`=`linuji_product`.`category`");
 $this->load->view("json",$data);
 }
 

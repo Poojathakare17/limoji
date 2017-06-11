@@ -31,7 +31,7 @@
 </div>
 <div class=" row">
 <div class=" input-field col s6">
-<?php echo form_dropdown("status",$status,set_value('status'));?>
+<?php echo form_dropdown("status",$status,set_value('status',1));?>
 <label>Status</label>
 </div>
 </div>
@@ -39,7 +39,7 @@
 <div class="file-field input-field col s12 m6">
 <div class="btn blue darken-4">
 <span>Image</span>
-<input type="file" name="image" multiple>
+<input type="file" name="image" accept="image/*">
 </div>
 <div class="file-path-wrapper">
 <input class="file-path validate" type="text" placeholder="Upload image" value='<?php echo set_value('image');?>'>

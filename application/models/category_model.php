@@ -53,7 +53,7 @@ if($query){
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `linuji_category` ORDER BY `id` ASC")->result();
+$query=$this->db->query("SELECT * FROM `linuji_slider` WHERE `status`='1' AND `type`='1' ORDER BY `id`")->result();
 $return=array(
 "" => "Select Option"
 );
