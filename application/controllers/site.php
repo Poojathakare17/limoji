@@ -1547,5 +1547,193 @@ $data["redirect"]="site/viewenquiries";
 $this->load->view("redirect",$data);
 }
 
+
+public function viewproduct()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewproduct";
+$data["base_url"]=site_url("site/viewproductjson");
+$data["title"]="View product";
+$this->load->view("template",$data);
+}
+function viewproductjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`linuji_product`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`linuji_category`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="Category";
+$elements[1]->alias="category";
+$elements[2]=new stdClass();
+$elements[2]->field="`linuji_product`.`is_special`";
+$elements[2]->sort="1";
+$elements[2]->header="Is special product";
+$elements[2]->alias="is_special";
+$elements[3]=new stdClass();
+$elements[3]->field="`linuji_product`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$elements[4]=new stdClass();
+$elements[4]->field="`linuji_product`.`status`";
+$elements[4]->sort="1";
+$elements[4]->header="Product status";
+$elements[4]->alias="status";
+$elements[5]=new stdClass();
+$elements[5]->field="`linuji_product`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="Name";
+$elements[5]->alias="name";
+$elements[6]=new stdClass();
+$elements[6]->field="`linuji_product`.`image`";
+$elements[6]->sort="1";
+$elements[6]->header="Image";
+$elements[6]->alias="image";
+$elements[7]=new stdClass();
+$elements[7]->field="`linuji_product`.`code`";
+$elements[7]->sort="1";
+$elements[7]->header="Product Code";
+$elements[7]->alias="code";
+$elements[8]=new stdClass();
+$elements[8]->field="`linuji_product`.`text`";
+$elements[8]->sort="1";
+$elements[8]->header="Text";
+$elements[8]->alias="text";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_product` INNER JOIN `linuji_category` ON `linuji_category`.`id`=`linuji_product`.`category`");
+$this->load->view("json",$data);
+}
+
+public function createproduct()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createproduct";
+$data["title"]="Create product";
+$data["is_special"]=$this->user_model->getisspecialdropdown();
+$data["status"]=$this->user_model->getstatusdropdown();
+$data["category"]=$this->category_model->getdropdown();
+$this->load->view("template",$data);
+}
+public function createproductsubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("category","Category","trim");
+$this->form_validation->set_rules("is_special","Is special product","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("status","Product status","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("code","Product Code","trim");
+$this->form_validation->set_rules("text","Text","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+echo $data["alerterror"];
+$data["page"]="createproduct";
+$data["title"]="Create product";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$category=$this->input->get_post("category");
+$is_special=$this->input->get_post("is_special");
+$order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
+$name=$this->input->get_post("name");
+$code=$this->input->get_post("code");
+$text=$this->input->get_post("text");
+$image=$this->menu_model->createImage();
+if($this->product_model->create($category,$is_special,$order,$status,$name,$image,$code,$text)==0)
+$data["alerterror"]="New product could not be created.";
+else
+$data["alertsuccess"]="product created Successfully.";
+$data["redirect"]="site/viewproduct";
+$this->load->view("redirect",$data);
+}
+}
+public function editproduct()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editproduct";
+$data["title"]="Edit product";
+$data["is_special"]=$this->user_model->getisspecialdropdown();
+$data["category"]=$this->category_model->getdropdown();
+$data["status"]=$this->user_model->getstatusdropdown();
+$data["before"]=$this->product_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editproductsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("category","Category","trim");
+$this->form_validation->set_rules("is_special","Is special product","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("status","Product status","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("code","Product Code","trim");
+$this->form_validation->set_rules("text","Text","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editproduct";
+$data["title"]="Edit product";
+$data["before"]=$this->product_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$category=$this->input->get_post("category");
+$is_special=$this->input->get_post("is_special");
+$order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
+$name=$this->input->get_post("name");
+$image=$this->menu_model->createImage();
+$code=$this->input->get_post("code");
+$text=$this->input->get_post("text");
+if($this->product_model->edit($id,$category,$is_special,$order,$status,$name,$image,$code,$text)==0)
+$data["alerterror"]="New product could not be Updated.";
+else
+$data["alertsuccess"]="product Updated Successfully.";
+$data["redirect"]="site/viewproduct";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteproduct()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->product_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewproduct";
+$this->load->view("redirect",$data);
+}
+
+
 }
 ?>

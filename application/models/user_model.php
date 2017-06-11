@@ -465,6 +465,15 @@ class User_model extends CI_Model
 			);
 		return $status;
 	}
+	 public function getisspecialdropdown()
+	{
+		$is_special= array(
+			 "" => "Choose Is Special",
+			 "1" => "Yes",
+			 "2" => "No"
+			);
+		return $is_special;
+	}
 	public function frontendlogout($user)
 	{
         $query=$this->db->query("SELECT `id`, `name`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json` FROM `user` WHERE `id`='$user' LIMIT 0,1")->row();
