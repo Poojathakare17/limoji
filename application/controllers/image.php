@@ -80,7 +80,7 @@ class Image extends CI_Controller {
             imagesavealpha($newimage, true);
             imagecopyresized($newimage, $photo, 0, 0, 0, 0, $newwidth, $newheight, $originalwidth, $originalheight);
             if ($extension == "jpg" || $extension == "jpeg") {
-                imagejpeg($newimage, "./uploads/$newfilename", 100);
+                imagejpeg($newimage, "./uploads/$newfilename", 75);
                 header("content-type:image/jpeg");
                 $thumbstring = read_file("./uploads/".$newfilename);
                 echo $thumbstring;
