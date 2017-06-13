@@ -59,5 +59,16 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
+    function getProductsByCategory($categoryId){
+        $this->db->where("category",$categoryId);
+        $query=$this->db->get("linuji_product")->result();
+        if($query){
+            return $query;
+        }
+        else{
+            return [];
+        }
+
+    }
 }
 ?>

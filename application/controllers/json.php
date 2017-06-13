@@ -45,4 +45,12 @@ public function getContactInfo()
     }
     $this->load->view("json", $data);
 }
+
+// products by category
+public function getProductsByCategory()
+{
+    $categoryId=$this->input->get("category");
+    $data["message"]=$this->product_model->getProductsByCategory($categoryId);
+    $this->load->view("json",$data);
+}
 }?>
