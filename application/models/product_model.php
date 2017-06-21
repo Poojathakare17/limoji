@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class product_model extends CI_Model
 {
-public function create($category,$is_special,$order,$status,$name,$image,$code,$text)
+public function create($category,$special_category,$is_special,$order,$status,$name,$image,$code,$text)
 {
-$data=array("category" => $category,"is_special" => $is_special,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"code" => $code,"text" => $text);
+$data=array("category" => $category,"special_category" => $special_category,"is_special" => $is_special,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"code" => $code,"text" => $text);
 $query=$this->db->insert( "linuji_product", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("linuji_product")->row();
 return $query;
 }
-public function edit($id,$category,$is_special,$order,$status,$name,$image,$code,$text)
+public function edit($id,$category,$special_category,$is_special,$order,$status,$name,$image,$code,$text)
 {
 if($image=="")
 {
 $image=$this->product_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("category" => $category,"is_special" => $is_special,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"code" => $code,"text" => $text);
+$data=array("category" => $category,"special_category" => $special_category,"is_special" => $is_special,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"code" => $code,"text" => $text);
 $this->db->where( "id", $id );
 $query=$this->db->update( "linuji_product", $data );
 return 1;
@@ -61,6 +61,18 @@ return $return;
 }
     function getProductsByCategory($categoryId){
         $this->db->where("category",$categoryId);
+        $query=$this->db->get("linuji_product")->result();
+        if($query){
+            return $query;
+        }
+        else{
+            return [];
+        }
+
+    }
+
+    function getSpecialProductsByCategory($categoryId){
+        $this->db->where("special_category",$categoryId);
         $query=$this->db->get("linuji_product")->result();
         if($query){
             return $query;

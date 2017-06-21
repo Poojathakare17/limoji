@@ -36,7 +36,7 @@ return $query;
 }
 function getAllSliderWithoutPagination()
 {
-    $query=$this->db->query("SELECT * FROM `linuji_slider` WHERE `status`='1' ORDER BY `order`")->result();
+    $query=$this->db->query("SELECT * FROM `linuji_slider` WHERE `status`='1' AND `type`='1' ORDER BY `order`")->result();
     if($query){
         return $query;
     }
@@ -45,6 +45,19 @@ function getAllSliderWithoutPagination()
     }
    
 }
+
+function getSpecialProductSlider()
+{
+    $query=$this->db->query("SELECT * FROM `linuji_product` WHERE `status`='1' AND `is_special`='1' ORDER BY `order`")->result();
+    if($query){
+        return $query;
+    }
+    else{
+        return false;
+    }
+   
+}
+
 public function edit($id,$name,$text,$order,$status,$image,$type)
 {
 if($image=="")

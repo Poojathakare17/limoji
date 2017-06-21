@@ -19,6 +19,12 @@
 </div>
 </div>
 <div class=" row">
+<div class=" input-field col s6">
+<?php echo form_dropdown("special_category",$special_category,set_value('special_category',$before->special_category));?>
+<label>Special Category</label>
+</div>
+</div>
+<div class=" row">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("is_special",$is_special,set_value('is_special',$before->is_special));?>
 <label for="Is special product">Is special product</label>

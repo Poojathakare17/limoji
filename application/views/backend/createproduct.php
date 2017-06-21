@@ -18,8 +18,14 @@
 </div>
 <div class=" row">
 <div class=" input-field col s6">
-<?php echo form_dropdown("is_special",$is_special,set_value('is_special'));?>
-<label>Is special product</label>
+<?php echo form_dropdown("special_category",$special_category,set_value('special_category'));?>
+<label>Special Category</label>
+</div>
+</div>
+<div class=" row">
+<div class=" input-field col s6">
+<?php echo form_dropdown("is_special",$is_special,set_value('is_special','2'));?>
+<label>Show on Home</label>
 </div>
 </div>
 <div class=" row">

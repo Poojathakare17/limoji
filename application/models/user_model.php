@@ -468,7 +468,7 @@ class User_model extends CI_Model
 	 public function getisspecialdropdown()
 	{
 		$is_special= array(
-			 "" => "Choose Is Special",
+			 "" => "Please Select",
 			 "1" => "Yes",
 			 "2" => "No"
 			);

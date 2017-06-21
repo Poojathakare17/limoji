@@ -17,6 +17,12 @@ public function getAllSliderWithoutPagination()
     $this->load->view("json",$data);
 }
 
+public function getSpecialProductSlider()
+{
+    $data["message"]=$this->slider_model->getSpecialProductSlider();
+    $this->load->view("json",$data);
+}
+
         //about us api
 public function getAboutUsContent()
 {
@@ -27,6 +33,12 @@ public function getAboutUsContent()
 public function getAllCategory()
 {
     $data["message"]=$this->category_model->getAllCategory();
+    $this->load->view("json",$data);
+}
+
+public function getSpecialCategory()
+{
+    $data["message"]=$this->category_model->getSpecialCategory();
     $this->load->view("json",$data);
 }
 
@@ -51,6 +63,13 @@ public function getProductsByCategory()
 {
     $categoryId=$this->input->get("category");
     $data["message"]=$this->product_model->getProductsByCategory($categoryId);
+    $this->load->view("json",$data);
+}
+
+public function getSpecialProductsByCategory()
+{
+    $categoryId=$this->input->get("category");
+    $data["message"]=$this->product_model->getSpecialProductsByCategory($categoryId);
     $this->load->view("json",$data);
 }
 }?>

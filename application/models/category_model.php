@@ -43,7 +43,7 @@ return $query;
 }
 public function getAllCategory()
 {
-$query=$this->db->query("SELECT `id`,`name` FROM `linuji_slider` WHERE `status`='1' AND `type`='1' ORDER BY `ORDER`")->result();
+$query=$this->db->query("SELECT `id`,`name` FROM `linuji_slider` WHERE `status`='1' ORDER BY `id`")->result();
 if($query){
     return $query;
 }else{
@@ -51,11 +51,36 @@ if($query){
 }
 
 }
+
+public function getSpecialCategory()
+{
+$query=$this->db->query("SELECT `id`,`name` FROM `linuji_slider` WHERE `status`='1' AND `type`='2' ORDER BY `id`")->result();
+if($query){
+    return $query;
+}else{
+    false;
+}
+
+}
+
 public function getdropdown()
 {
 $query=$this->db->query("SELECT * FROM `linuji_slider` WHERE `status`='1' AND `type`='1' ORDER BY `id`")->result();
 $return=array(
-"" => "Select Option"
+"" => "Select Category"
+);
+foreach($query as $row)
+{
+$return[$row->id]=$row->name;
+}
+return $return;
+}
+
+public function getSpecialCategoryDropdown()
+{
+$query=$this->db->query("SELECT * FROM `linuji_slider` WHERE `status`='1' AND `type`='2' ORDER BY `id`")->result();
+$return=array(
+"" => "Select Special Category"
 );
 foreach($query as $row)
 {

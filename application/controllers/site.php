@@ -1632,6 +1632,7 @@ $data["title"]="Create product";
 $data["is_special"]=$this->user_model->getisspecialdropdown();
 $data["status"]=$this->user_model->getstatusdropdown();
 $data["category"]=$this->category_model->getdropdown();
+$data["special_category"]=$this->category_model->getSpecialCategoryDropdown();
 $this->load->view("template",$data);
 }
 public function createproductsubmit() 
@@ -1639,6 +1640,7 @@ public function createproductsubmit()
 $access=array("1");
 $this->checkaccess($access);
 $this->form_validation->set_rules("category","Category","trim");
+$this->form_validation->set_rules("special_category","Special Category","trim");
 $this->form_validation->set_rules("is_special","Is special product","trim");
 $this->form_validation->set_rules("order","Order","trim");
 $this->form_validation->set_rules("status","Product status","trim");
@@ -1658,6 +1660,7 @@ else
 {
 $id=$this->input->get_post("id");
 $category=$this->input->get_post("category");
+$special_category=$this->input->get_post("special_category");
 $is_special=$this->input->get_post("is_special");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
@@ -1665,7 +1668,7 @@ $name=$this->input->get_post("name");
 $code=$this->input->get_post("code");
 $text=$this->input->get_post("text");
 $image=$this->menu_model->createImage();
-if($this->product_model->create($category,$is_special,$order,$status,$name,$image,$code,$text)==0)
+if($this->product_model->create($category,$special_category,$is_special,$order,$status,$name,$image,$code,$text)==0)
 $data["alerterror"]="New product could not be created.";
 else
 $data["alertsuccess"]="product created Successfully.";
@@ -1681,6 +1684,7 @@ $data["page"]="editproduct";
 $data["title"]="Edit product";
 $data["is_special"]=$this->user_model->getisspecialdropdown();
 $data["category"]=$this->category_model->getdropdown();
+$data["special_category"]=$this->category_model->getSpecialCategoryDropdown();
 $data["status"]=$this->user_model->getstatusdropdown();
 $data["before"]=$this->product_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -1691,6 +1695,7 @@ $access=array("1");
 $this->checkaccess($access);
 $this->form_validation->set_rules("id","ID","trim");
 $this->form_validation->set_rules("category","Category","trim");
+$this->form_validation->set_rules("special_category","Special Category","trim");
 $this->form_validation->set_rules("is_special","Is special product","trim");
 $this->form_validation->set_rules("order","Order","trim");
 $this->form_validation->set_rules("status","Product status","trim");
@@ -1710,6 +1715,7 @@ else
 {
 $id=$this->input->get_post("id");
 $category=$this->input->get_post("category");
+$special_category=$this->input->get_post("special_category");
 $is_special=$this->input->get_post("is_special");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
@@ -1717,7 +1723,7 @@ $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $code=$this->input->get_post("code");
 $text=$this->input->get_post("text");
-if($this->product_model->edit($id,$category,$is_special,$order,$status,$name,$image,$code,$text)==0)
+if($this->product_model->edit($id,$category,$special_category,$is_special,$order,$status,$name,$image,$code,$text)==0)
 $data["alerterror"]="New product could not be Updated.";
 else
 $data["alertsuccess"]="product Updated Successfully.";
