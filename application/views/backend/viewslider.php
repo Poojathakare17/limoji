@@ -3,10 +3,10 @@
 <div class="row">
 <div class="col s12 drawchintantable">
 <?php if($this->input->get('type')==1){
-$this->chintantable->createsearch("Category Sliders");
+$this->chintantable->createsearch("Category");
 }
 else if($this->input->get('type')==2){
-$this->chintantable->createsearch("Product Sliders");
+$this->chintantable->createsearch("Special Category");
 }
 ?>
 

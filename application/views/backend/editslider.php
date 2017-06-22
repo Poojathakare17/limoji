@@ -1,6 +1,11 @@
 <div class="row">
 <div class="col s12">
-<h4 class="pad-left-15 capitalize">Edit slider</h4>
+<?php if ($before->type==1){ ?>
+<h4 class="pad-left-15 capitalize">Edit Category</h4>
+<?php } ?>
+<?php if ($before->type==2){ ?>
+<h4 class="pad-left-15 capitalize">Edit Special Category</h4>
+<?php } ?>
 </div>
 </div>
 <div class="row">

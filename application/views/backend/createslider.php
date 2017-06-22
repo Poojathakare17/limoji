@@ -3,10 +3,10 @@
 
 
 <?php if ($this->input->get_post('type')==1){ ?>
-<h4 class="pad-left-15 capitalize">Add Category Sliders</h4>
+<h4 class="pad-left-15 capitalize">Add Category</h4>
 <?php } ?>
 <?php if ($this->input->get_post('type')==2){ ?>
-<h4 class="pad-left-15 capitalize">Add Product Sliders</h4>
+<h4 class="pad-left-15 capitalize">Add Special Category</h4>
 <?php } ?>
 
 </div>
