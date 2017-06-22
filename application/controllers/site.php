@@ -1264,7 +1264,7 @@ public function viewenquirydetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewenquirydetail";
-$data["base_url"]=site_url("site/viewenquirydetailjson?id=").$this->input->get('id');
+$data["before"]=$this->enquirydetail_model->getEnquiryDetail($this->input->get('id'));
 $data["title"]="View enquirydetail";
 $this->load->view("template",$data);
 }

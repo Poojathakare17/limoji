@@ -59,5 +59,25 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
+
+public function getEnquiryDetail($id)
+{
+$this->db->where("enquiryid",$id);
+$query=$this->db->get("linuji_enquirydetail")->result();
+
+foreach($query as $row)
+{
+    if($row->category!='0')
+    {
+        $row->category=$this->db->query("SELECT * FROM `linuji_slider` WHERE `id`=".$row->category)->row()->name;
+    }
+    else
+    {
+        $row->category="";
+    }
+}
+return $query;
+}
+
 }
 ?>
