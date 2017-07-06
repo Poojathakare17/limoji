@@ -38,9 +38,9 @@ function drawtable(resultrow) {
     else if(resultrow.status==2){
         resultrow.status="Disable";
     }
-      var image = "<a class='img-center' href='<?php echo base_url('uploads').'/'; ?>" + resultrow.image + "' ><img src='<?php echo base_url('uploads').'/'; ?>" + resultrow.image + "'></a>";
+      var image = "<a class='img-center' href='<?php echo base_url().'index.php/image/?width=800&name='; ?>" + resultrow.image + "' ><img src='<?php echo base_url().'index.php/image/?width=800&name='; ?>" + resultrow.image + "'></a>";
         if (resultrow.image == "") {
-            image = "No Receipt Available";
+            image = "No Image Available";
         }
 return "<tr><td>" + resultrow.name + "</td><td>" + resultrow.order + "</td><td>" + resultrow.status + "</td><td>" + image + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editslider?id=');?>"+resultrow.id+"&type="+resultrow.type+"' data-position='top' data-delay='50' data-tooltip='Edit'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad' onclick=\"return confirm('Are you sure you want to delete?');\") href='<?php echo site_url('site/deleteslider?id='); ?>"+resultrow.id+"&type="+resultrow.type+"' data-position='top' data-delay='50' data-tooltip='Delete'><i class='material-icons propericon'>delete</i></a></td></tr>";
 }
