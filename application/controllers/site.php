@@ -1566,7 +1566,7 @@ $elements[0]->sort="1";
 $elements[0]->header="ID";
 $elements[0]->alias="id";
 $elements[1]=new stdClass();
-$elements[1]->field="`linuji_slider`.`name`";
+$elements[1]->field="`linuji_product`.`category`";
 $elements[1]->sort="1";
 $elements[1]->header="Category";
 $elements[1]->alias="category";
@@ -1605,6 +1605,11 @@ $elements[8]->field="`linuji_product`.`text`";
 $elements[8]->sort="1";
 $elements[8]->header="Text";
 $elements[8]->alias="text";
+$elements[9]=new stdClass();
+$elements[9]->field="`linuji_product`.`special_category`";
+$elements[9]->sort="1";
+$elements[9]->header="Special Category";
+$elements[9]->alias="special_category";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -1619,7 +1624,23 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_product` INNER JOIN `linuji_slider` ON `linuji_slider`.`id`=`linuji_product`.`category`");
+$result=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `linuji_product`");
+foreach($result->queryresult as $row)
+{
+    if($row->category!='0' && $row->category!=null)
+    {
+        $row->category=$this->db->query("SELECT * FROM `linuji_slider` WHERE `id`=".$row->category)->row()->name;
+    }
+	else if($row->special_category!='0' && $row->special_category!=null)
+	{
+		$row->category=$this->db->query("SELECT * FROM `linuji_slider` WHERE `id`=".$row->special_category)->row()->name;
+	}
+    else
+    {
+        $row->category="";
+    }
+}
+$data["message"]=$result;
 $this->load->view("json",$data);
 }
 
