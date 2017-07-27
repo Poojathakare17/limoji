@@ -50,6 +50,10 @@ public function getContactInfo()
     $email=$data['email'];
     $contact=$data['contact'];
     $row=$data['productEnquiry'];
+        $name = $this->security->xss_clean($name);
+		$email = $this->security->xss_clean($email);
+        $contact = $this->security->xss_clean($contact);
+        $row = $this->security->xss_clean($row);
     if($name!=null) {
         $data["message"] = $this->contact_model->getContactInfo($name, $email, $contact,$row);
     }else {

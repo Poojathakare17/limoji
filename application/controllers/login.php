@@ -19,6 +19,8 @@ class Login extends CI_Controller
 		$this->load->model('user_model');
 		$username=$this->input->post('username');
 		$password=$this->input->post('password');
+		$username = $this->security->xss_clean($username);
+		$password = $this->security->xss_clean($password);
 		$validate = $this->user_model->validate($username,$password);
 		if ( $validate ) {
 			redirect( base_url() . 'index.php/site', 'refresh' );

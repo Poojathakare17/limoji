@@ -33,6 +33,7 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
+//			error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 			error_reporting(E_ALL);
 		break;
 	
@@ -200,10 +201,6 @@ if (defined('ENVIRONMENT'))
  *
  */
 require_once BASEPATH.'core/CodeIgniter.php';
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
 /* End of file index.php */
 /* Location: ./index.php */
