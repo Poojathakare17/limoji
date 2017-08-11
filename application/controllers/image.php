@@ -1,8 +1,6 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Image extends CI_Controller {
-    private function createimage() {
-    }
     public function index() {
         $this->load->helper('file');
         $name = $this->input->get("name");
@@ -90,6 +88,98 @@ class Image extends CI_Controller {
                 header("content-type:image/png");
                 $thumbstring = read_file("./uploads/".$newfilename);
                 echo $thumbstring;
+            }
+        }
+    }
+
+    public function createThumb($name,$width,$height) {
+        $this->load->helper('file');
+        //$name = $this->input->get("name");
+        $extension = explode(".", $name);
+        $extension = $extension[count($extension) - 1];
+        //echo $extension;
+        // $width = intval($this->input->get("width"));
+        // $height = intval($this->input->get("height"));
+        $imagepath = "./uploads/" . $name;
+        $newfilename = $name;
+        if ($width != 0 && $height != 0) {
+            $newfilename = "thumb/thumb_w_" . $width . "_h_" . $height . "_" . $name;
+        } else if ($width != 0 && $height == 0) {
+            $newfilename = "thumb/thumb_w_" . $width . "_" . $name;
+        } else if ($width == 0 && $height != 0) {
+            $newfilename = "thumb/thumb_h_" . $height . "_$name";
+        } else if ($width == 0 && $height == 0) {
+        }
+        $thumbstring = read_file("./uploads/".$newfilename);
+        if (!$thumbstring) {
+            $string = read_file($imagepath);
+            //echo $originalwidth;
+            if ($string) {
+                if ($extension == "jpg" || $extension == "jpeg") {
+                    // header("content-type:image/jpeg");
+                    $photo = @imagecreatefromjpeg("$imagepath");
+                } else if ($extension == "png") {
+                    // header("content-type:image/png");
+                    $photo = @imagecreatefrompng("$imagepath");
+                } else {
+                    // header("content-type:image/jpeg");
+					// echo read_file("./uploads/no-format.jpg");
+					return 0;
+                }
+            } else {
+                // header("content-type:image/jpeg");
+                $photo = @imagecreatefromjpeg("./uploads/noimage.jpg");
+            }
+            $originalwidth = imagesx($photo);
+            $originalheight = imagesy($photo);
+            $ratio = $originalwidth / $originalheight;
+            // echo $ratio;
+            $newwidth = 0;
+            $newheight = 0;
+            if ($width != 0 && $height != 0) {
+                $newwidth = $width;
+                $newheight = $height;
+            } else if ($width != 0 && $height == 0) {
+                $newwidth = $width;
+                $newheight = $width / $ratio;
+            } else if ($width == 0 && $height != 0) {
+                $newwidth = $ratio * $height;
+                $newheight = $height;
+            } else if ($width == 0 && $height == 0) {
+                $newwidth = $originalwidth;
+                $newheight = $originalheight;
+            }
+
+            $newimage = @imagecreatetruecolor($newwidth, $newheight);
+            imagealphablending($newimage, false);
+            imagesavealpha($newimage, true);
+            imagecopyresized($newimage, $photo, 0, 0, 0, 0, $newwidth, $newheight, $originalwidth, $originalheight);
+            if ($extension == "jpg" || $extension == "jpeg") {
+                imagejpeg($newimage, "./uploads/$newfilename", 75);
+                // header("content-type:image/jpeg");
+                // $thumbstring = read_file("./uploads/".$newfilename);
+                // echo $thumbstring;
+
+            } else {
+                imagepng($newimage, "./uploads/$newfilename");
+                // header("content-type:image/png");
+                // $thumbstring = read_file("./uploads/".$newfilename);
+                // echo $thumbstring;
+            }
+        }
+    }
+
+    public function createThumbsForAll() {
+        $this->load->helper('directory');
+        $this->load->helper('file');
+        $files = directory_map('./uploads/', 1);
+        foreach($files as $file)
+        {
+            if(is_file('./uploads/'.$file))
+            {
+                $imgThumb800 = $this->createThumb($file,800,0);
+				$imgThumb1600 = $this->createThumb($file,1600,0);
+                //unlink('./uploads/'.$file);
             }
         }
     }

@@ -40,7 +40,7 @@
                 <?php if($before->image == "") { } else {
                 ?>
                 <span class="img-center big">
-                <img src="<?php echo base_url()."index.php/image/?width=800&name=".$before->image; ?>">
+                <img src="<?php echo base_url()."uploads/thumb/thumb_w_800_".$before->image; ?>">
                     <?php } ?>
                     </span>
                 <div class="btn blue darken-4">

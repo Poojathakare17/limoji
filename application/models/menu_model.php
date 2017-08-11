@@ -38,16 +38,20 @@ class Menu_model extends CI_Model
 	}
      function createImage()
     {
-           $config['upload_path'] = './uploads/';
-			$config['allowed_types'] = 'gif|jpg|png';
-			$this->load->library('upload', $config);
-			$filename="image";
-			$image="";
-			if (  $this->upload->do_upload($filename))
-			{
-				$uploaddata = $this->upload->data();
-				$image=$uploaddata['file_name'];
-			}
+		$this->load->helper('file');
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$this->load->library('upload', $config);
+		$filename="image";
+		$image="";
+		if ($this->upload->do_upload($filename))
+		{
+			$uploaddata = $this->upload->data();
+			$image=$uploaddata['file_name'];
+			$imgThumb800 = $this->createThumb($image,800,0);
+			$imgThumb1600 = $this->createThumb($image,1600,0);
+			//unlink('./uploads/'.$image);
+		}
         return $image;
     }
 	function viewmenu()
@@ -201,7 +205,65 @@ class Menu_model extends CI_Model
        $query=$this->db->query("SELECT `id`, `name`, `logo` FROM `title` WHERE `id`=1")->row();
        return $query;
     }
-   
-    
+   public function createThumb($name,$width,$height)
+   {
+	   $this->load->helper('file');
+        $extension = explode(".", $name);
+        $extension = $extension[count($extension) - 1];
+        $imagepath = "./uploads/" . $name;
+        $newfilename = $name;
+        if ($width != 0 && $height != 0) {
+            $newfilename = "thumb/thumb_w_" . $width . "_h_" . $height . "_" . $name;
+        } else if ($width != 0 && $height == 0) {
+            $newfilename = "thumb/thumb_w_" . $width . "_" . $name;
+        } else if ($width == 0 && $height != 0) {
+            $newfilename = "thumb/thumb_h_" . $height . "_$name";
+        } else if ($width == 0 && $height == 0) {
+        }
+        $thumbstring = read_file("./uploads/".$newfilename);
+        if (!$thumbstring) {
+            $string = read_file($imagepath);
+            if ($string) {
+                if ($extension == "jpg" || $extension == "jpeg") {
+                    $photo = @imagecreatefromjpeg("$imagepath");
+                } else if ($extension == "png") {
+                    $photo = @imagecreatefrompng("$imagepath");
+                } else {
+					return 0;
+                }
+            } else {
+                $photo = @imagecreatefromjpeg("./uploads/noimage.jpg");
+            }
+            $originalwidth = imagesx($photo);
+            $originalheight = imagesy($photo);
+            $ratio = $originalwidth / $originalheight;
+            $newwidth = 0;
+            $newheight = 0;
+            if ($width != 0 && $height != 0) {
+                $newwidth = $width;
+                $newheight = $height;
+            } else if ($width != 0 && $height == 0) {
+                $newwidth = $width;
+                $newheight = $width / $ratio;
+            } else if ($width == 0 && $height != 0) {
+                $newwidth = $ratio * $height;
+                $newheight = $height;
+            } else if ($width == 0 && $height == 0) {
+                $newwidth = $originalwidth;
+                $newheight = $originalheight;
+            }
+
+            $newimage = @imagecreatetruecolor($newwidth, $newheight);
+            imagealphablending($newimage, false);
+            imagesavealpha($newimage, true);
+            imagecopyresized($newimage, $photo, 0, 0, 0, 0, $newwidth, $newheight, $originalwidth, $originalheight);
+            if ($extension == "jpg" || $extension == "jpeg") {
+                imagejpeg($newimage, "./uploads/$newfilename", 75);
+
+            } else {
+                imagepng($newimage, "./uploads/$newfilename");
+            }
+        }
+   }
 }
 ?>

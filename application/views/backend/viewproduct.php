@@ -31,7 +31,7 @@ function drawtable(resultrow) {
     else if(resultrow.status==2){
         resultrow.status="Disable";
     }
-	 var image = "<a class='img-center' href='<?php echo base_url().'index.php/image/?width=800&name='; ?>" + resultrow.image + "' ><img src='<?php echo base_url().'index.php/image/?width=800&name='; ?>" + resultrow.image + "'></a>";
+	 var image = "<a class='img-center' href='<?php echo base_url().'uploads/thumb/thumb_w_800_'; ?>" + resultrow.image + "' ><img src='<?php echo base_url().'uploads/thumb/thumb_w_800_'; ?>" + resultrow.image + "'></a>";
         if (resultrow.image == "") {
             image = "No Image Available";
         }
