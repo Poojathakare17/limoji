@@ -31,27 +31,27 @@ $this->db->where( "id", $id );
 $query=$this->db->update( "linuji_contact", $data );
 return 1;
 }
-public function getContactInfo($name, $email, $contact, $row)
-{
-    $data=array("name" => $name,"contact" => $contact,"email" => $email);
-    $query=$this->db->insert( "linuji_enquiry", $data );
-    $id=$this->db->insert_id();
-    for($i=0; $i<count($row); $i++){
-        $data=array("value" => $row[$i]['value'],"voltage" => $row[$i]['voltage'],"category" => $row[$i]['category'],"misc" => $row[$i]['misc'],"enquiryid" => $id);
-        $query1=$this->db->insert( "linuji_enquirydetail", $data );
-        if($query1){
-            continue;
-        }
-        else{
-            break;
-            return false;
-        }
-    }
-    if(!$query)
-    return false;
-    else
-    return  $query;
-}
+ public function getContactInfo($name, $email, $contact, $row)
+ {
+     $data=array("name" => $name,"contact" => $contact,"email" => $email);
+     $query=$this->db->insert( "linuji_enquiry", $data );
+     $id=$this->db->insert_id();
+     for($i=0; $i<count($row); $i++){
+         $data=array("value" => $row[$i]['value'],"voltage" => $row[$i]['voltage'],"category" => $row[$i]['category'],"misc" => $row[$i]['misc'],"enquiryid" => $id);
+         $query1=$this->db->insert( "linuji_enquirydetail", $data );
+         if($query1){
+             continue;
+         }
+         else{
+             break;
+             return false;
+         }
+     }
+     if(!$query)
+     return false;
+     else
+     return  $query;
+ }
 public function delete($id)
 {
 $query=$this->db->query("DELETE FROM `linuji_contact` WHERE `id`='$id'");
