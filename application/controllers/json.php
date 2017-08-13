@@ -8,6 +8,7 @@ public function __construct( )
 		$this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 $this->output->set_header('Pragma: no-cache');
 $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+$this->load->library('email');
 	}
 
 //slider api
@@ -56,6 +57,26 @@ public function getContactInfo()
         $data["message"] = false;
     }
     $this->load->view("json", $data);
+
+    // send email
+    for ($i = 0; $i < count($data['productEnquiry']); $i++){
+        if($data['productEnquiry'][$i]['category']!='0')
+        {
+            $data['productEnquiry'][$i]['categoryName']=$this->db->query("SELECT * FROM `linuji_slider` WHERE `id`=".$data['productEnquiry'][$i]['category'])->row()->name;
+        }
+        else
+        {
+            $data['productEnquiry'][$i]['categoryName']="";
+        }
+    }
+    $this->email->set_newline("\r\n");
+    $email_body = $this->load->view("emailtemplate",$data,true);
+    $this->email->from('info@ecap.net.in', 'Ecap');
+    $this->email->to('ecapnetin@gmail.com');
+    $subject = "Enquiry from ".$name." (".$email.")";
+    $this->email->subject($subject);
+    $this->email->message($email_body);
+    $this->email->send();
 }
 
 // products by category
